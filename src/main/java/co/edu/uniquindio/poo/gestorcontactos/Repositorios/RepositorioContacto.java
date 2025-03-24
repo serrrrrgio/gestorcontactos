@@ -3,7 +3,10 @@ package co.edu.uniquindio.poo.gestorcontactos.Repositorios;
 import co.edu.uniquindio.poo.gestorcontactos.Model.Contacto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class RepositorioContacto implements RepositorioInterfaceUsuario {
 
 private ObservableList<Contacto> contactos;
