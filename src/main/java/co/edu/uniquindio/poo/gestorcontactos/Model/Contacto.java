@@ -11,7 +11,7 @@ import java.time.MonthDay;
 @AllArgsConstructor
 public class Contacto {
     private String nombre;
-    private String  apellido;
-    private String telefono;
+    private String apellido;
+    private String telefono;String correo;
     private MonthDay fechaCumplanos;
 }
