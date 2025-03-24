@@ -24,23 +24,34 @@ private ObservableList<Contacto> contactos;
     }
 
     @Override
+
     public Contacto obtenerContactoTelefono(String telefono) {
-        // TODO Auto-generated method stub
-        return null;
+        for (Contacto contacto : contactos){
+            if(contacto.getTelefono().equals(telefono)){
+                return contacto;
+            }
+        }
+       return null; 
+
     }
 
     @Override
     public ObservableList<Contacto> obtenerContactos() {
-        // TODO Auto-generated method stub
-        return null;
+        return contactos;
     }
 
     @Override
     public ObservableList<Contacto> obtenerContactosNombre(String nombre) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+        ObservableList<Contacto> encontrados = FXCollections.observableArrayList();
 
+        for (Contacto contacto : contactos) {
+            if (contacto.getNombre().equalsIgnoreCase(nombre)) {
+                encontrados.add(contacto);
+            }
+        }
     
+        return encontrados;
+    }
+     
+        
 }
-
