@@ -70,9 +70,6 @@ public class InicioUsuarioController {
     private Button btnAnadir;
 
     @FXML
-    private TableColumn<?, ?> tlcFoto;
-
-    @FXML
     private Button btnActualizar;
 
     @FXML
@@ -89,7 +86,7 @@ public class InicioUsuarioController {
         configurarColumnasTabla();
         cargarContactos();
         agregarListenerTabla();
-        txtFiltrar.textProperty().addListener((observable, oldValue, newValue) -> filtrarAutomaticamente(newValue));
+        txtFiltrar.setOnAction(event -> filtrar());
     }
 
     private void configurarColumnasTabla() {
@@ -111,18 +108,51 @@ public class InicioUsuarioController {
                 txtApellido.setText(newSelection.getApellido());
                 txtTelefono.setText(newSelection.getTelefono());
                 txtCorreo.setText(newSelection.getCorreo());
+                dateCumpleanos.setValue(newSelection.getFechaCumpleanos().atYear(LocalDate.now().getYear()));
 
-                // Convertir MonthDay a LocalDate usando el año actual
-                MonthDay monthDay = newSelection.getFechaCumpleanos();
-                LocalDate fechaCompleta = monthDay.atYear(LocalDate.now().getYear());
-                dateCumpleanos.setValue(fechaCompleta);
+                // Asignar imagen si no es null
+                if (newSelection.getImagen() != null) {
+                    imagenContacto.setImage(newSelection.getImagen());
+                } else {
+                    imagenContacto.setImage(null);
+                }
+            } else {
+                limpiarCampos();
             }
         });
     }
 
+    private void filtrar() {
+        try {
+            String criterio = txtFiltrar.getText().trim();
+            TipoFiltro filtroSeleccionado = choiceFiltrar.getValue();
+    
+            if (criterio.isEmpty()) {
+                cargarContactos();
+                return;
+            }
+    
+            if (filtroSeleccionado == null) {
+                App.mostrarAlerta("Error", "Debe seleccionar un tipo de filtro antes de buscar.");
+                return;
+            }
+    
+            ObservableList<Contacto> contactosFiltrados = contactoServicio.filtrarContacto(filtroSeleccionado, criterio);
+    
+            if (contactosFiltrados.isEmpty()) {
+                App.mostrarAlerta("Información", "No se encontraron contactos con el criterio ingresado.");
+            }
+    
+            tblContactos.setItems(contactosFiltrados);
+        } catch (Exception e) {
+            App.mostrarAlerta("Error", e.getMessage());
+        }
+    }
+    
+
     private void cargarContactos() {
         try {
-            tblContactos.setItems(FXCollections.observableArrayList(contactoServicio.filtrarContacto(TipoFiltro.NOMBRE, "")));
+            tblContactos.setItems(FXCollections.observableArrayList(contactoServicio.obtenerTodosLosContactos()));
         } catch (Exception e) {
             App.mostrarAlerta("Error", e.getMessage());
         }
@@ -131,14 +161,9 @@ public class InicioUsuarioController {
     @FXML
     void Registrar(ActionEvent event) {
         try {
-            String nombre = txtNombre.getText();
-            String apellido = txtApellido.getText();
-            String telefono = txtTelefono.getText();
-            String correo = txtCorreo.getText();
-            LocalDate fecha = dateCumpleanos.getValue();
-            if (fecha == null) throw new Exception("Debe seleccionar una fecha de cumpleaños");
-
-            contactoServicio.registrarContacto(nombre, apellido, telefono, correo, MonthDay.of(fecha.getMonth(), fecha.getDayOfMonth()));
+            contactoServicio.registrarContacto(txtNombre.getText(), txtApellido.getText(), txtTelefono.getText(),
+                    txtCorreo.getText(),
+                    MonthDay.of(dateCumpleanos.getValue().getMonth(), dateCumpleanos.getValue().getDayOfMonth()));
             App.mostrarMensaje("Éxito", "Contacto registrado correctamente.");
             limpiarCampos();
             cargarContactos();
@@ -151,7 +176,8 @@ public class InicioUsuarioController {
     void Eliminar(ActionEvent event) {
         try {
             Contacto contactoSeleccionado = tblContactos.getSelectionModel().getSelectedItem();
-            if (contactoSeleccionado == null) throw new Exception("Seleccione un contacto para eliminar");
+            if (contactoSeleccionado == null)
+                throw new Exception("Seleccione un contacto para eliminar");
 
             contactoServicio.eliminarContacto(contactoSeleccionado.getTelefono());
             App.mostrarMensaje("Éxito", "Contacto eliminado correctamente.");
@@ -165,43 +191,22 @@ public class InicioUsuarioController {
     void Actualizar(ActionEvent event) {
         try {
             Contacto contactoSeleccionado = tblContactos.getSelectionModel().getSelectedItem();
-            if (contactoSeleccionado == null) throw new Exception("Seleccione un contacto para actualizar");
+            if (contactoSeleccionado == null)
+                throw new Exception("Seleccione un contacto para actualizar");
 
             String nombre = txtNombre.getText();
             String apellido = txtApellido.getText();
-            String telefonoNuevo = txtTelefono.getText();
+            String telefono = txtTelefono.getText();
             String correo = txtCorreo.getText();
             LocalDate fecha = dateCumpleanos.getValue();
-            if (fecha == null) throw new Exception("Debe seleccionar una fecha de cumpleaños");
+            if (fecha == null)
+                throw new Exception("Debe seleccionar una fecha de cumpleaños");
 
-            contactoServicio.actualizarContacto(contactoSeleccionado.getTelefono(), nombre, apellido, telefonoNuevo, correo, MonthDay.of(fecha.getMonth(), fecha.getDayOfMonth()));
-            App.mostrarMensaje("Correcto", "Contacto actualizado correctamente.");
+            contactoServicio.actualizarContacto(contactoSeleccionado.getTelefono(), nombre, apellido, telefono, correo,
+                    MonthDay.of(fecha.getMonth(), fecha.getDayOfMonth()));
+            App.mostrarMensaje("Éxito", "Contacto actualizado correctamente.");
             limpiarCampos();
             cargarContactos();
-        } catch (Exception e) {
-            App.mostrarAlerta("Error", e.getMessage());
-        }
-    }
-
-    private void filtrarAutomaticamente(String criterio) {
-        try {
-            TipoFiltro filtroSeleccionado = choiceFiltrar.getValue();
-
-            if (filtroSeleccionado == null || criterio.trim().isEmpty()) {
-                tblContactos.setItems(contactoServicio.obtenerTodosLosContactos());
-                return;
-            }
-
-            if (filtroSeleccionado == TipoFiltro.TELEFONO && !criterio.matches("\\d*")) {
-                return;
-            }
-            if (filtroSeleccionado == TipoFiltro.NOMBRE && !criterio.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*")) {
-                return;
-            }
-
-            ObservableList<Contacto> contactosFiltrados = contactoServicio.filtrarContacto(filtroSeleccionado, criterio);
-            tblContactos.setItems(contactosFiltrados);
-
         } catch (Exception e) {
             App.mostrarAlerta("Error", e.getMessage());
         }
@@ -218,25 +223,33 @@ public class InicioUsuarioController {
         txtTelefono.clear();
         txtCorreo.clear();
         dateCumpleanos.setValue(null);
+        imagenContacto.setImage(null);
+        choiceFiltrar.setValue(null);
+        txtFiltrar.clear();
+        tblContactos.getSelectionModel().clearSelection();
     }
 
     @FXML
     void perfilButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar imagen de perfil");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Imágenes", ".png", ".jpg", ".jpeg", ".gif")
-        );
+        fileChooser.getExtensionFilters()
+                .add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         File archivoSeleccionado = fileChooser.showOpenDialog(null);
+
         if (archivoSeleccionado != null) {
             try {
                 Image imagenSeleccionada = new Image(archivoSeleccionado.toURI().toString());
                 imagenContacto.setImage(imagenSeleccionada);
+
+                Contacto contactoSeleccionado = tblContactos.getSelectionModel().getSelectedItem();
+                if (contactoSeleccionado != null) {
+                    contactoSeleccionado.setImagen(imagenSeleccionada); // Asignar la imagen al contacto
+                }
             } catch (Exception e) {
-                App.mostrarAlerta("No se pudo cargar la imagen seleccionada", "");
+                App.mostrarAlerta("Error", "No se pudo cargar la imagen seleccionada.");
             }
         }
     }
-
 
 }

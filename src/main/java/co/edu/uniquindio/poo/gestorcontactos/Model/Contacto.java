@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.time.MonthDay;
 
+import javafx.scene.image.Image;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -14,6 +16,9 @@ import java.time.MonthDay;
 public class Contacto {
     private String nombre;
     private String apellido;
-    private String telefono;String correo;
+    private String telefono;
+    String correo;
     private MonthDay fechaCumpleanos;
+    private Image imagen;
+
 }

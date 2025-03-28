@@ -18,10 +18,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/inicioUsuario.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/co/edu/uniquindio/poo/gestorcontactos/View/inicioUsuario.fxml"));
         Parent parent = loader.load();
 
-        Scene scene = new Scene(parent, 1000, 360);
+        Scene scene = new Scene(parent);
         stage.setScene(scene);
         stage.setTitle("Gestor de Contactos");
         stage.setResizable(false);
@@ -50,4 +51,3 @@ public class App extends Application {
         alert.showAndWait();
     }
 }
-

@@ -5,11 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 public class RepositorioContacto implements RepositorioInterfaceUsuario {
 
-private ObservableList<Contacto> contactos;
+    private ObservableList<Contacto> contactos;
+
     public RepositorioContacto() {
         this.contactos = FXCollections.observableArrayList();
     }
@@ -17,26 +19,24 @@ private ObservableList<Contacto> contactos;
     @Override
     public void agregarContacto(Contacto contacto) {
         contactos.add(contacto);
-        
+
     }
 
     @Override
     public void eliminarContacto(Contacto contacto) {
         contactos.remove(contacto);
-        
+
     }
-
-
 
     @Override
 
     public Contacto obtenerContactoTelefono(String telefono) {
-        for (Contacto contacto : contactos){
-            if(contacto.getTelefono().equals(telefono)){
+        for (Contacto contacto : contactos) {
+            if (contacto.getTelefono().equals(telefono)) {
                 return contacto;
             }
         }
-       return null; 
+        return null;
 
     }
 
@@ -54,9 +54,8 @@ private ObservableList<Contacto> contactos;
                 encontrados.add(contacto);
             }
         }
-    
+
         return encontrados;
     }
-     
-        
+
 }

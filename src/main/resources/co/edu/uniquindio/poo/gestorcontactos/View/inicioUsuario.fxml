@@ -108,12 +108,11 @@
          <children>
             <TableView fx:id="tblContactos" prefHeight="328.0" prefWidth="912.0">
               <columns>
-                <TableColumn fx:id="tlcNombre" prefWidth="135.0" text="Nombre" />
-                <TableColumn fx:id="tlcApellido" prefWidth="161.0" text="Apellido" />
-                  <TableColumn fx:id="tlcTelefono" prefWidth="248.0" text="Telefono" />
-                  <TableColumn fx:id="tlcCumpleanos" minWidth="0.0" prefWidth="141.0" text="Cumpleaños" />
-                  <TableColumn fx:id="tlcCorreo" prefWidth="226.0" text="Correo Electronico" />
-                  <TableColumn fx:id="tlcFoto" prefWidth="140.0" text="Foto" />
+                <TableColumn fx:id="tlcNombre" prefWidth="170.0" text="Nombre" />
+                <TableColumn fx:id="tlcApellido" prefWidth="168.0" text="Apellido" />
+                  <TableColumn fx:id="tlcTelefono" prefWidth="206.0" text="Telefono" />
+                  <TableColumn fx:id="tlcCumpleanos" minWidth="0.0" prefWidth="191.0" text="Cumpleaños" />
+                  <TableColumn fx:id="tlcCorreo" prefWidth="316.0" text="Correo Electronico" />
               </columns>
             </TableView>
          </children>
