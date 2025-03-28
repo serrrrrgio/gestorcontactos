@@ -29,7 +29,7 @@
             <VBox alignment="TOP_CENTER" prefHeight="179.0" prefWidth="456.0" GridPane.rowIndex="8" />
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <TextField fx:id="lblApellido" promptText="Apellido" />
+                  <TextField fx:id="txtApellido" promptText="Apellido" />
                </children></VBox>
             <Label GridPane.columnIndex="1">
                <font>
@@ -40,7 +40,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="lblNombre" prefHeight="31.0" prefWidth="604.0" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="604.0" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label prefHeight="30.0" prefWidth="221.0" text="          Apellido:" GridPane.rowIndex="2">
                <font>
                   <Font size="20.0" />
@@ -51,9 +51,9 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="lblTelefono" promptText="Telefono" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="lblCorreo" promptText="Correo electronico" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="añadirContacto" mnemonicParsing="false" text="Añadir Contacto" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="txtTelefono" promptText="Telefono" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtCorreo" promptText="Correo electronico" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="btnAnadir" mnemonicParsing="false" text="Añadir Contacto" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label prefHeight="30.0" prefWidth="217.0" text="             Correo: " GridPane.rowIndex="4">
                <font>
                   <Font size="20.0" />
@@ -64,9 +64,9 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <DatePicker fx:id="lblFechaCumpleaños" promptText="Fecha de cumpleaños" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Button fx:id="eliminarContacto" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Eliminar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Button fx:id="ActualizarContacto" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Actualizar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <DatePicker fx:id="dateFechaCumplanos" promptText="Fecha de cumpleaños" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="btnEliminar" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Eliminar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Button fx:id="btnActualizar" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Actualizar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
@@ -77,17 +77,18 @@
                   </Label>
                </children>
             </VBox>
+            <Button fx:id="btnAnadirFoto" mnemonicParsing="false" text="Añadir foto" GridPane.columnIndex="2" GridPane.rowIndex="7" />
          </children>
       </GridPane>
       <VBox layoutY="526.0" prefHeight="236.0" prefWidth="912.0">
          <children>
-            <TableView prefHeight="258.0" prefWidth="912.0">
+            <TableView fx:id="tblContactos" prefHeight="258.0" prefWidth="912.0">
               <columns>
-                <TableColumn fx:id="nombre" prefWidth="156.0" text="Nombre" />
-                <TableColumn fx:id="apellido" prefWidth="187.0" text="Apellido" />
-                  <TableColumn fx:id="telefono" prefWidth="201.0" text="Telefono" />
-                  <TableColumn fx:id="cumpleaños" minWidth="0.0" prefWidth="141.0" text="Cumpleaños" />
-                  <TableColumn fx:id="correo" prefWidth="226.0" text="Correo Electronico" />
+                <TableColumn fx:id="lblNombre" prefWidth="156.0" text="Nombre" />
+                <TableColumn fx:id="lblApellido" prefWidth="187.0" text="Apellido" />
+                  <TableColumn fx:id="lblTelefono" prefWidth="201.0" text="Telefono" />
+                  <TableColumn fx:id="lblCumpleanos" minWidth="0.0" prefWidth="141.0" text="Cumpleaños" />
+                  <TableColumn fx:id="lblCorreo" prefWidth="226.0" text="Correo Electronico" />
               </columns>
             </TableView>
          </children>
